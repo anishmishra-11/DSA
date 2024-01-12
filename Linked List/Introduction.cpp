@@ -138,18 +138,18 @@ int main()
     Node* head = Convert_Arr2LL(arr);
     cout<<head->data;
 
-    cout<<"\nTraversal of LL\n";
-    Traverse_LL(head); 
-    cout<<endl;
+    // cout<<"\nTraversal of LL\n";
+    // Traverse_LL(head); 
+    // cout<<endl;
 
-    Length_LL(head);
-    cout<<endl;
+    // Length_LL(head);
+    // cout<<endl;
 
-    bool answer = Check_if_present(head, 5);
-    cout<<answer<<endl;
+    // bool answer = Check_if_present(head, 5);
+    // cout<<answer<<endl;
     
-    bool value = Check_if_present(head, 9);
-    cout<<value<<endl;
+    // bool value = Check_if_present(head, 9);
+    // cout<<value<<endl;
 
 
   return 0;
