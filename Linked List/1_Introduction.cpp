@@ -51,7 +51,7 @@ class Node {
 /* This Function is used to convert a given vector array to a linked list. 
 
 Step 1 : store the first element as the starting node and point its next to null.
-Step 2 : create a mover pointer to store the locatin of the first element. 
+Step 2 : create a mover pointer to store the location of the first element. 
 Step 3 : Iterate over the array and create a temp node and update the pointers through move and temp->next.
 */
 
