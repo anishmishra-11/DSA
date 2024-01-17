@@ -6,7 +6,8 @@ Advantages of Doubly Linked List over the singly linked list:
 
 Applications of Doubly Linked List:
 1. LRU ( Least Recently Used ) / MRU ( Most Recently Used ) Cache are constructed using Doubly Linked Lists. 
-2. Used by various applications to maintain undo and redo functionalities. 
+2. Used by various applications to maintain undo and redo functionalities.
+3. Used by the browsers to go forward and come backward to the websites. 
 */
 #include <iostream>
 #include <vector>
@@ -44,6 +45,14 @@ void Traverse_LL(Node* head){
     }  
 }
 
+// New Concepts and Functions start from here.
+/*
+Step 1 : Store the first element as the starting node and point its next to null and back to also null.
+Step 2 : create a mover pointer to store the location of the first element. 
+Step 3 : Iterate over the array and create a temp node whose next point to null and back to prev
+Step 4 : Update the pointers through move and prev->next and prev=temp.
+*/
+
 Node* Convert_Arr2DLL(vector<int> &arr){
     Node* head = new Node(arr[0]);
     Node* prev = head;
@@ -57,6 +66,11 @@ Node* Convert_Arr2DLL(vector<int> &arr){
     return head;    
 }  
 
+/*
+Step 1 : Write for edge cases first i.e if only 1 element or 0 element are present, then what should happen.
+Step 2 : Store the head in a temp node, Move the head to next element.
+Step 3 : Change the connections of new head and remove all the connections of temp head and then delete it.
+*/
 Node* deleteHead(Node* head){
     if(head == NULL || head->next == NULL){
         return NULL;
@@ -72,6 +86,12 @@ Node* deleteHead(Node* head){
     return head;
 }
 
+/*
+Step 1 : Write for edge cases first i.e if only 1 element or 0 element are present, then what should happen.
+Step 2 : Store the head in a temp node, Move to the last element of the linked list.
+Step 3 : Update the next pointer of tail's previous node to nullptr.
+Step 4 : Remove all the connections of temp node and then delete it.
+*/
 Node* deleteTail(Node* head){
     if(head == NULL || head->next == NULL) return NULL;
 
@@ -88,6 +108,15 @@ Node* deleteTail(Node* head){
     return head;
 }
 
+/*
+Step 1 : Write for edge cases first i.e if 0 elements are present in DLL, then what should happen.
+Step 2 : Initialize count and Move to the Kth element of the linked list.
+Step 3 : Get the prev node and the front node of the Kth node.
+Step 4 : Here we can find that there are 4 cases to delete : one element only, atHead, atTail or atIntermediate.
+Step 5 : Check the if else if cases for better understanding of deletion for first 3 cases.
+Step 6 : Update the connection of next in prev node and of back in front node.
+Step 7 : Remove all the connections of temp node and then delete it. 
+*/
 Node* deleteKthElement(Node* head, int k){
     if(head == NULL) return NULL;
     //This code helps to go to the Kth node of the Doubly Linked List.
@@ -126,6 +155,12 @@ Node* deleteKthElement(Node* head, int k){
     return head;
 }
 
+/*
+Step 1 : Get the prev node and the front node of the node.
+Step 2 : If front is null then DLL has only two nodes in it, then update connections to nullptr.
+Step 3 : Otherwise, update the connections in prev.next and temp.back.
+Step 4 : Remove all the connections of given node or temp node and then delete it. 
+*/
 //Given a Node, not head, Delete a given node from DLL and (Node != head)
 void deleteNode(Node* temp){
     Node* prev = temp->back;
@@ -145,6 +180,11 @@ void deleteNode(Node* temp){
     delete(temp);    
 }
 
+/*
+Step 1 : Create a new node and at the time of creation pass next as given head and back to nullptr.
+Step 2 : Update the connection in given head back as newNode.
+Step 3 : Return the new updated node or head. 
+*/
 Node* insertBeforeHead(Node* head, int value){
     Node* newHead = new Node(value,head,nullptr);
     head->back = newHead;
@@ -152,6 +192,12 @@ Node* insertBeforeHead(Node* head, int value){
     return newHead;
 }
 
+/*
+Step 1 : Write for edge cases first i.e if only 1 element is present then what should happen.
+Step 2 : Iterate and go till the last node of the DLL.
+Step 3 : Create a new node with connection to the tail as next and back as tail's prev.
+Step 4 : Update the connections of temp's back and prev's next and then return the head.
+*/
 Node* insertBeforeTail(Node* head, int value){
     if(head->next == NULL){
         return insertBeforeHead(head, value);
@@ -169,7 +215,13 @@ Node* insertBeforeTail(Node* head, int value){
     return head;
 }
 
-
+/*
+Step 1 : Write for edge cases first i.e if 1 element is present in DLL, then what should happen.
+Step 2 : Initialize count and Move to the Kth element of the Doubly Linked List.
+Step 3 : Get the prev node of the Kth node.
+Step 4 : Create a new node with connectins to the next node as next and prev node as back.
+Step 5 : Update the connections of temp's back and prev's next and then return the head.
+*/
 Node* insertBeforeKthElement(Node* head, int k, int value){
     if(k==1){
         head = insertBeforeHead(head, value);
@@ -193,7 +245,20 @@ Node* insertBeforeKthElement(Node* head, int k, int value){
     return head;
 }
 
+/*
+Step 1 : Get the prev node of the given node.
+Step 2 : Create a new node with connectins to the next node as next and prev node as back.
+Step 3 : Update the connections of node's back and prev's next.
+*/
 //Given a Node, not head, Insert a given node before the given node in DLL and (Node != head)
+void insertBeforeNode(Node* node, int value){
+    Node* prev = node->back;
+    Node* newNode = new Node(value,node,prev);
+
+    prev->next = newNode;
+    node->back = newNode;
+
+}
 
 int main (){
 
@@ -230,6 +295,9 @@ int main (){
     head = insertBeforeKthElement(head,6,151);
     Traverse_LL(head);
     cout<<endl;
+
+    insertBeforeNode(head->next,100);
+    Traverse_LL(head);
 
     return 0;
 }
