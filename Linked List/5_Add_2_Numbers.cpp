@@ -95,7 +95,7 @@ int main (){
     vector<int> arr1 = {6,4,2};
     Node* head1 = Convert_Arr2LL(arr1);
 
-    vector<int> arr2 = {3,8, 7};
+    vector<int> arr2 = {3,8,7};
     Node* head2 = Convert_Arr2LL(arr2);
 
     Node* resultHead = Add2Numbers(head1,head2);
