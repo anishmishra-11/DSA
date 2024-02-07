@@ -93,18 +93,22 @@ Node* SegregateOddEvenBrute(Node* head){
     return head;
 }
 
-/*Appraoch 2 : Better Solution - Optimized Space Complexity
+/*Appraoch 2 : Better Solution - By Changing the links - Optimized Space Complexity
 Step 1 : Changing the links for odd indexed nodes.
 Step 2 : Changing the links for even indexed nodes.
 Step 3 : At last, connecting the last odd node link with the first even node in the linked list.
+
+Time Complexity : O((N/2)*2) ~ O(N)
+Space Complexity : O(1)
 */
 
+//This function is used to segregate odd and even indexes of the linked list not the values of the nodes.
 Node* SegregateOddEvenIndex(Node* head){
     if(head == NULL || head->next == NULL) return head;
 
     Node* odd = head;
     Node* even = head->next;
-    Node* evenHead = even;
+    Node* evenHead = even; // Used to store the head of the even positioned linked list.
 
     while(even != NULL && even->next != NULL){ // && is used to stop even at its last position.
         odd->next = odd->next->next;
@@ -113,9 +117,9 @@ Node* SegregateOddEvenIndex(Node* head){
         odd = odd->next;
         even = even->next;
     }
-    odd->next = evenHead;// Connecting the last odd indexed element link with the first even node.
+    odd->next = evenHead; // Connecting the last odd indexed element link with the first even node.
 
-    return head;// The first node will be an odd node and we have not touched it so return original head.
+    return head; // The first node will be an odd node and we have not touched it so return original head.
 }
 
 int main()
