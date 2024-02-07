@@ -66,8 +66,8 @@ Why this works ? This solution works because stacks work on the basis of last in
 and the last data of the stack gets stored on the top of the linked list. Also, the first data will be 
 stored at the last in the stack.
 
-Time Complexity : O()
-Space Complexity : O()
+Time Complexity : O(max(n1, n2)) Depends on the length of the longer linked list.
+Space Complexity : O(mex(n1,n2)) Depends on the length of the longer linked list.
 */
 
 Node* Add2Numbers(Node*head1, Node* head2){
