@@ -1,4 +1,3 @@
-//Odd Event linked list.
 #include <iostream>
 #include <vector>
 using namespace std;
