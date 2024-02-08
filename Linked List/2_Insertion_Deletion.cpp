@@ -82,7 +82,7 @@ Node* deleteTail(Node* head){
     return head;
 }
 
-/*1->2->3 Delelte 2 from here
+/*1->2->3 Delete 2 from here
 Step 1 : Always write the edge case if head is NULL and No element to delete.
 Step 2 : Write the case for deleting the head of the Linked List.
 Step 3 : Initialize a prev pointer with null, count = 0 and temp = head.
