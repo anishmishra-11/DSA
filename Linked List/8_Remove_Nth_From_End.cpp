@@ -1,4 +1,3 @@
-//Odd Event linked list.
 #include <iostream>
 #include <vector>
 using namespace std;
@@ -44,7 +43,6 @@ void Traverse_LL(Node* head){
         temp = temp->next;
     }  
 }
-
 //New Concepts start from here.
 /*
 Brute Frute Solution : Traversting two times and using length of the linked list.
