@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <unordered_map>
 using namespace std;
 
 class Node {
@@ -80,6 +81,35 @@ Node* findIntersectionBrute(Node* head1, Node* head2){
 }
 
 /*
+Brute Frute Solution 2: Storing nodes of one linked list in a data structure and then matching with second one.
+Step 1 : Iterate through list 1 and hash its node address in a map data structure.
+Step 2 : Iterate through the other list, starting from the head of the other linked list.
+Step 3 : Search the hashed value in the hash table. If found, return node.
+
+Time Complexity : O(N1 + N2)
+Space Complexity : O(N) - Storing list 1 node addresses in unordered_set.
+*/
+Node* findIntersectionBrute2(Node* firstHead, Node* secondHead){
+    unordered_map<Node*, int> m;
+    Node* temp = firstHead;
+
+    while (temp != NULL) {
+        m[temp] = 1; // Insertion in the map.
+        temp = temp->next;
+    }
+
+    temp = secondHead;
+    while (temp != NULL) {
+        if (m.find(temp) != m.end()) {
+            return temp;
+        }
+        temp = temp->next;
+    }
+
+    return NULL; 
+}
+
+/*
 Better Solution : Using length and starting from a same point.
 Step 1 : We have to find the length of both of the linked list.
 Step 2 : And take a headstart by d i.e the difference between length of the linked lists.
@@ -140,9 +170,25 @@ int main()
 {
     vector<int> arr = {9,1,19,9,8};
     Node* head1 = Convert_Arr2LL(arr);
+
+    Node* newNode= head1->next->next->next;
     
     vector<int> arr1 = {11,14,19};
     Node* head2 = Convert_Arr2LL(arr1);
+
+    head2->next->next->next = newNode;
+
+    Node* answer = findIntersectionBrute(head1,head2);
+    cout<<answer->data<<endl;
+
+    answer = findIntersectionBrute2(head1,head2);
+    cout<<answer->data<<endl;
+    
+    answer = findIntersectionBetter(head1,head2);
+    cout<<answer->data<<endl;
+
+    answer = findIntersectionOptimal(head1,head2);
+    cout<<answer->data;
 
     
   return 0;
