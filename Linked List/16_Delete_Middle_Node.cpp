@@ -81,7 +81,7 @@ Node* deleteMiddleBrute(Node* head){
 }
 
 /*
-Optimal Solution : Use Tortoise and Hair Algorithm and go to the (middle-1)th node.
+Optimal Solution : Use Tortoise and Hare Algorithm and go to the (middle-1)th node.
 Step 1 : Write the edge case when there are 0 or 1 node in the linked list.
 Step 2 : Initialize prev, slow and fast pointers.
 Step 3 : Move fast by 2step, slow & prev pointers by 1 step.

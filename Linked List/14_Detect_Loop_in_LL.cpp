@@ -71,7 +71,7 @@ bool detectLoopBrute(Node* head){
 }
 
 /*
-Optimal Solution : Using Tortoise and Hair Algorithm
+Optimal Solution : Using Tortoise and Hare Algorithm
 Step 1 : Initialize slow and fast pointers from head of the linked list.
 Step 2 : Move slow by one step and fast by two step.
 Step 3 : If they are meeting then return true that means there is a loop
