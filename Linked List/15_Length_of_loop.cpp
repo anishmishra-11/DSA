@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <unordered_map>
 using namespace std;
 
 class Node {
@@ -48,8 +49,8 @@ void Traverse_LL(Node* head){
 /*
 Brute Frute Solution : Storing nodes of linked list with a timer.
 Step 1 : Iterate through the linked list and store each node in a unordered map.
-Step 2 : Before storing check if the node already exists in the map or not.
-Step 3 : If found, return true which means there is a loop else return false.
+Step 2 : Before storing check if the node already exists in the map or not. Increase the timer after storing.
+Step 3 : If found, return the length using formula ((timer + 1) - Timer) at the current node else return false.
 
 Time Complexity : O(N*2*(1)) 2 is the number of map operations and 1 is for time complexity of map operation. 
 Space Complexity : O(N) 
@@ -71,6 +72,16 @@ int LengthOfLoopBrute(Node* head){
     return 0; 
 }
 
+/*
+Optimal Solution : Using Tortoise and Hare Algorithm
+Step 1 : Use slow and fast pointers to find a loop in the linked list.
+Step 2 : After detection of the loop then move 1 complete round to the same node using one pointer.
+Step 3 : Increment count for each node and whene again the pointers meet return the count.
+Step 4 : If no loop is found then return 0.
+
+Time Complexity : O(N)
+Space Complexity : O(1) 
+*/
 int LengthOfLoopOptimal(Node* head){
     Node* slow = head;
     Node* fast = head;
@@ -79,9 +90,9 @@ int LengthOfLoopOptimal(Node* head){
         slow = slow->next;
         fast = fast->next->next;
 
-        if(slow == fast){
-            fast = fast->next;
-            int count = 1;
+        if(slow == fast){ // Finding the length of the loop.
+            fast = fast->next; // Moving 1 step every time.
+            int count = 1; //Starting from the next node and count as 1.
             while(fast != slow){
                 count++;
                 fast = fast->next;
@@ -94,14 +105,16 @@ int LengthOfLoopOptimal(Node* head){
 
 int main()
 {
-    vector<int> arr = {9,19,1,29,8};
+    vector<int> arr = {9,19,1,29,8,12,19,7};
     Node* head = Convert_Arr2LL(arr);
 
-    head->next->next = head->next; // Making a loop for check
+    head->next->next->next->next->next = head; // Making a loop for check 
 
-    int answer = detectLoopBrute(head);
+    int answer = LengthOfLoopBrute(head);
     cout<<answer<<endl;
 
-             
+    answer = LengthOfLoopOptimal(head);
+    cout<<answer;
+        
   return 0;
 }
