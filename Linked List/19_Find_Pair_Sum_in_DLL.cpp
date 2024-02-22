@@ -49,20 +49,21 @@ void Traverse_LL(Node* head){
 }
 
 //New Concepts start from here.
-// /*
-// Brute Frute Solution : Iterate over the Doubly Linked List once and delete the node while traversal.
-// Step 1 : Iterate through the linked list and check if temp's data is equal to key.
-// Step 2 : Once the data is matching then check if temp is at head or not in case of head we need to move it by 1.
-// Step 3 : Store the prevNode and the nextNode and check if they are not null then perform the link changes.
-// Step 4 : Delete the temp and move temp to nextNode after the link changes are done.
-// Step 5 : If data is not matching then move temp to the next node.
+/*
+Brute Frute Solution : Iterate over the Doubly Linked List once and delete the node while traversal.
+Step 1 : Iterate through the linked list and check if temp's data is equal to key.
+Step 2 : Once the data is matching then check if temp is at head or not in case of head we need to move it by 1.
+Step 3 : Store the prevNode and the nextNode and check if they are not null then perform the link changes.
+Step 4 : Delete the temp and move temp to nextNode after the link changes are done.
+Step 5 : If data is not matching then move temp to the next node.
 
-// Time Complexity : O(N)  
-// Space Complexity : O(1) 
-// */
-// vector<a<int> findPairs(Node* head, int key) {
+Time Complexity : O(N)  
+Space Complexity : O(1) 
+*/
+int findPairs(Node* head, int key) {
+    return 0;
     
-// }
+}
 
 int main (){
 
