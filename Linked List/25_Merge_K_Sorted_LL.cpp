@@ -1,12 +1,5 @@
-/* You are given a linked list containing 'n' 'head' nodes, where every node in the linked list. 
-contains two pointers:
-
-(1) ‘next’ which points to the next node in the list.
-(2) ‘child’ pointer to a linked list where the current node is the head.
-
-Each of these child linked lists is in sorted order and connected by 'child' pointer.
-Your task is to flatten this linked such that all nodes appear in a single layer or level in a 'sorted order'.
-*/
+/*You are given an array of k linked-lists lists, each linked-list is sorted in ascending order.
+Merge all the linked-lists into one sorted linked-list and return it.*/
 #include <iostream>
 #include <vector>
 #include <algorithm>
@@ -16,14 +9,12 @@ using namespace std;
 class Node {
     public:
     int data;
-    Node* next;
-    Node* child;
+    Node * next;
 
     public:
-    Node(int data, Node * next, Node* child){
+    Node(int data, Node * next){
         this->data = data;
         this->next = next;
-        this->child = child;
     }
 
     public:
@@ -31,7 +22,6 @@ class Node {
     {
       this->data = data;
       next = nullptr;
-      child = nullptr;
     }
 };
 
@@ -60,43 +50,97 @@ void Traverse_LL(Node* head){
 
 //New Concepts start from here. 
 /*
-Brute Frute Solution : Iterate over the linked list using 2 loops and convert to LL after sorting it.
-Step 1 : Iterate through the linked list using temp.
-Step 2 : Now iterate over the child pointers of the current node in the linked list and push it into the array.
-Step 3 : Sort the array and then convert it to a linked list in form of child pointers.
+Brute Frute Solution : Iterate over the all the linked list, store it in array and convert to LL after sorting it.
+Step 1 : Iterate through the list of all the heads of the linked list.
+Step 2 : Now iterate through each of the list and store the data in an array.
+Step 3 : Sort the array and then convert it to a linked list.
 Step 4 : Return the head of the new linked list.
 
-Length of the linked list : N
-Maximum length of linked list in form of child pointers : M
-Time Complexity : 2 * O(N*M) + O(N*M) log(N*M)
-Space Complexity : 2 * O(N*M)
+Assumptions : 
+Size of the given list is K.
+Length of each linked list is N.
+Time Complexity : O(N*K) + O(N*K)log(N*K) + O(N*K)
+Space Complexity : O(M) + O(M)
 
-In space complexity 1 (N*M) is for storing it in array and the other is for creating a new linked list
-of size N*M.
 */
-Node* merge_K_Sorted_LLBrute(Node* head){
-    
+Node* merge_K_Sorted_LLBrute(vector<Node*>& lists){
+    vector<int> array;
+    for(int i=0; i<lists.size(); i++){
+        Node* temp = lists[i];
+        while(temp != NULL){
+            array.push_back(temp->data);
+            temp = temp->next;
+        }
+    }
+    sort(array.begin(), array.end());
+    Node* head = Convert_Arr2LL(array);
+    return head;
 }
 
 /*
-Optimal Solution: Make comparisons over the two linked list and do link changes.
-Step 1 : Place a t1 on head1 and t2 at head2. Create a dummy node call it as temp.
-Step 2 : Do comparisons on value of the both the linked list.
-Step 3 : If t1's value is less than point temp's next to t1 and move t1 by one place.
-Step 4 : If t2's value is less than point temp's next to t2 and move t2 by one place.
-Step 5 : Move temp to its next for updating the links ahead.
-Step 6 : Check if t1 or t2 is left or not and attach it to the temp's next.
-Step 7 : Return the head i.e. dummyNode's next.
+Better Solution: Merge two linked list once and use the merged linked list with next one to merge.
+Step 1 : Use the first head of the list as the head 
+Step 2 : Iterate from second head of the given list and merge the first two. Store it in head.
+Step 3 : Write the merge function to merge two sorted linked list in-place.
+Step 4 : Return the head of the final merged linked list.
 
-Time Complexity : O(N1 + N2) 
+Assuming that the length of each linked list is N.
+Time Complexity : O(2N) + O(3N) + O(4N)
+N + (2N + 3N + 4N) // Adding N 
+N + 2N + 3N + .... + KN
+N + (1 + 2 + 3 + 4 + .... + K)
+Final TC : [N + (K . K+1) / 2] 
+The time complexity is roughly in power of cubes near about N^3.
 Space Complexity : O(1)
 */
-Node* merge_K_Sorted_LLOptimal(Node* head){
-        
+Node* merge(Node* head1, Node* head2){
+    if(head1 == NULL && head2 == NULL) return head1;
+
+    Node* dummyNode = new Node(-1);
+    Node* t1 = head1, *t2 = head2, *temp = dummyNode;
+
+    while(t1 != NULL && t2 != NULL){
+        if(t1->data < t2->data){
+            temp->next = t1;
+            t1 = t1->next;
+        }
+        else{
+            temp->next = t2;
+            t2 = t2->next;
+        }
+        temp = temp->next;
+    }
+    if(t1) temp->next = t1;
+    if(t2) temp->next = t2;
+
+    return dummyNode->next;    
+}
+
+Node* merge_K_Sorted_LLBetter(vector<Node*> lists){
+    Node * head = lists[0];
+    for(int i=1; i<lists.size(); i++){
+        head = merge(head, lists[i]);
+    }
+    return head;
 }
 
 int main (){
-    vector<int> arr = {1,9,19,28};
+    vector<Node*> lists;
+
+    vector<int> arr1 = {1,9,19};
+    Node* head1 = Convert_Arr2LL(arr1);
+    lists.push_back(head1);
+
+    vector<int> arr2 = {2,33,119};
+    Node* head2 = Convert_Arr2LL(arr2);
+    lists.push_back(head2);
+
+    vector<int> arr3 = {4,5,90};
+    Node* head3 = Convert_Arr2LL(arr3);
+    lists.push_back(head3);
+
+    Node* head = merge_K_Sorted_LLBetter(lists);
+    Traverse_LL(head);
     
 
     return 0;
