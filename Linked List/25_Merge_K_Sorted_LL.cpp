@@ -4,6 +4,7 @@ Merge all the linked-lists into one sorted linked-list and return it.*/
 #include <vector>
 #include <algorithm>
 #include "../../../../MinGW/lib/gcc/mingw32/6.3.0/include/c++/bits/algorithmfwd.h"
+#include <queue>
 using namespace std;
 
 class Node {
@@ -116,13 +117,50 @@ Node* merge(Node* head1, Node* head2){
     return dummyNode->next;    
 }
 
-Node* merge_K_Sorted_LLBetter(vector<Node*> lists){
+Node* merge_K_Sorted_LLBetter(vector<Node*>& lists){
     Node * head = lists[0];
     for(int i=1; i<lists.size(); i++){
         head = merge(head, lists[i]);
     }
     return head;
 }
+
+/*
+Optimal Solution: Use Min-Heap i.e. priority Queue to store the nodes and then doing the comparison.
+Step 1 : Store all the heads of the given list in the PQ. Also, Create a dummy node call it as temp.
+Step 2 : Take the minimum node out from the PQ and attach it to the next of the dummy Node.
+Step 3 : Put the node's next node in the priority to continue with the comparison.
+Step 4 : 
+Step 5 : Move temp to its next for updating the links ahead.
+Step 6 : Check if t1 or t2 is left or not and attach it to the temp's next.
+Step 7 : Return the head i.e. dummyNode's next.
+
+Time Complexity : O(N1 + N2) 
+Space Complexity : O(1)
+*/
+Node* merge_K_Sorted_LLOptimal(vector<Node*>& lists){
+    // Below is the line for declaration of Priority Queue, used greater comparsion function to ensure a min heap.
+    priority_queue<pair<int, Node*>, vector<pair<int, Node*>>, greater<pair<int, Node*>>> pq;
+
+    for(int i=0; i<lists.size(); i++){ // Adding all the heads of the lists to the priority queue
+        pq.push({lists[i]->data, lists[i]});
+    }
+    Node* dummyNode = new Node(-1);
+    Node* temp = dummyNode;
+
+    while(!pq.empty()){ // Ensuring that all the nodes are added once to the priority queue.
+        pair<int, Node*> pair = pq.top(); // Taking the minimum out of the PQ.
+        temp->next = pair.second; // Pointing the next of the temp to the next least minimum node.
+        pq.pop(); // Removing it from the priority queue.
+
+        // storing the next node in the PQ after checking whether it is null or not.
+        if(pair.second->next) pq.push({pair.second->next->data, pair.second->next}); 
+
+        temp = temp->next; // Moving temp to the next node of sorted linked list.
+    }
+    return dummyNode->next;
+}
+
 
 int main (){
     vector<Node*> lists;
@@ -139,9 +177,20 @@ int main (){
     Node* head3 = Convert_Arr2LL(arr3);
     lists.push_back(head3);
 
-    Node* head = merge_K_Sorted_LLBetter(lists);
-    Traverse_LL(head);
-    
+    Node* headBrute = merge_K_Sorted_LLBrute(lists);
+    Traverse_LL(headBrute);
+    cout<<endl;
+
+    Node* headBetter = merge_K_Sorted_LLBetter(lists);
+    Traverse_LL(headBetter);
+    cout<<endl;
+
+/*  Since we have used the same nodes to sort the linked lists so optimal function is not executing that's why
+    it's output is not showing while all three functions are called. You have to reinitialize lists as a 
+    collection of multiple head's of different linked list.*/
+
+    Node* headOptimal = merge_K_Sorted_LLOptimal(new_list);
+    Traverse_LL(headOptimal);    
 
     return 0;
 }
