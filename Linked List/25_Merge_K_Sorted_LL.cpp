@@ -129,14 +129,18 @@ Node* merge_K_Sorted_LLBetter(vector<Node*>& lists){
 Optimal Solution: Use Min-Heap i.e. priority Queue to store the nodes and then doing the comparison.
 Step 1 : Store all the heads of the given list in the PQ. Also, Create a dummy node call it as temp.
 Step 2 : Take the minimum node out from the PQ and attach it to the next of the dummy Node.
-Step 3 : Put the node's next node in the priority to continue with the comparison.
-Step 4 : 
-Step 5 : Move temp to its next for updating the links ahead.
-Step 6 : Check if t1 or t2 is left or not and attach it to the temp's next.
-Step 7 : Return the head i.e. dummyNode's next.
+Step 3 : Store the node's next node in the priority to continue with the comparison.
+Step 4 : Before storing the next node make sure it is not null.
+Step 5 : Do this untill the priority queue becomes empty. 
+Step 6 : Return the head i.e. dummyNode's next.
 
-Time Complexity : O(N1 + N2) 
-Space Complexity : O(1)
+Time Complexity : O(K log K) + N * K logK 
+Space Complexity : O(K)
+
+N can be the longest length of the the given linked lists.
+K is the size of the priority queue.
+
+The time complexity is somewhere near about N^2 * logN which is better than the previous solution.
 */
 Node* merge_K_Sorted_LLOptimal(vector<Node*>& lists){
     // Below is the line for declaration of Priority Queue, used greater comparsion function to ensure a min heap.
