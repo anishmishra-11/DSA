@@ -193,7 +193,7 @@ int main (){
     it's output is not showing while all three functions are called. You have to reinitialize lists as a 
     collection of multiple head's of different linked list.*/
 
-    Node* headOptimal = merge_K_Sorted_LLOptimal(new_list);
+    Node* headOptimal = merge_K_Sorted_LLOptimal(lists);
     Traverse_LL(headOptimal);    
 
     return 0;
