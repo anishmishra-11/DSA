@@ -1,75 +1,99 @@
 #include <iostream>
 #include <vector>
+#include<string>
 using namespace std;
+/**
+ * Your BrowserHistory object will be instantiated and called as such:
+ * BrowserHistory* obj = new BrowserHistory(homepage);
+ * obj->visit(url);
+ * string param_2 = obj->back(steps);
+ * string param_3 = obj->forward(steps);
+ */
 
 class Node {
     public:
-    int data;
+    string val;
     Node* next;
-    Node* back;
+    Node* prev;
 
     public:
-    Node(int data, Node* next, Node* back){
-        this->data = data;
+    Node(string data, Node * next, Node* prev){
+        this->val = data;
         this->next = next;
-        this->back = back;
+        this->prev = prev;
     }
 
     public:
-    Node(int data)
+    Node(string data)
     {
-      this->data = data;
+      this->val = data;
       next = nullptr;
-      back = nullptr;
+      prev = nullptr;
     }
 };
 
-Node* Convert_Arr2DLL(vector<int> &arr){
-    Node* head = new Node(arr[0]);
-    Node* prev = head;
-
-    for (int i = 1; i < arr.size(); i++)
-    {
-        Node* temp = new Node(arr[i],nullptr, prev);
-        prev->next = temp;
-        prev = temp;
+class BrowserHistory {
+public:
+    Node* current;
+    BrowserHistory(string homepage) {
+        current = new Node(homepage);
     }
-    return head;    
-}  
-
-void Traverse_LL(Node* head){
-
-    Node* temp = head;
-    while(temp != nullptr)
-    {
-        cout<<temp->data<< " ";
-        temp = temp->next;
-    }  
-}
-
-//New Concepts start from here.
-/*
-Brute Frute Solution : Iterate over the Doubly Linked List once and delete the node while traversal.
-Step 1 : Iterate through the linked list and check if temp's data is equal to key.
-Step 2 : Once the data is matching then check if temp is at head or not in case of head we need to move it by 1.
-Step 3 : Store the prevNode and the nextNode and check if they are not null then perform the link changes.
-Step 4 : Delete the temp and move temp to nextNode after the link changes are done.
-Step 5 : If data is not matching then move temp to the next node.
-
-Time Complexity : O(N)  
-Space Complexity : O(1)  
-*/
-Node * browswer_Implementation(Node* head) {
-    Node* temp = head;
     
-}
+    void visit(string url) {
+        Node* newNode = new Node(url);
+        current->next = newNode;
+        newNode->prev = current;
+        current = newNode;
+    }
+    
+    string back(int steps) {
+        while(steps){
+            steps--;
+            if(current->prev) current = current->prev;
+            else break;
+        }
+        return current->val;
+    }
+    
+    string forward(int steps) {
+        while(steps){
+            if(current->next) current = current->next;
+            else break;
+            steps--;
+        }
+        return current->val;
+    }
+};
 
-int main (){
+int main() {
+    vector<string> operations = {"BrowserHistory","visit","visit","visit","back","back","forward","visit","forward","back","back"};
+    vector<vector<string>> parameters = {{"leetcode.com"},{"google.com"},{"facebook.com"},{"youtube.com"},{ "1" },{ "1" },{ "1" },{"linkedin.com"},{ "2" },{ "2" },{ "7" }};
+    vector<string> output;
 
-    vector<int> arr = {1,2,1,1,4,1,6,7,1};
-    Node* head = Convert_Arr2DLL(arr);
+    BrowserHistory* browser = nullptr;
 
-    Traverse_LL(head);
+    for (size_t i = 0; i < operations.size(); ++i) {
+        if (operations[i] == "BrowserHistory") {
+            browser = new BrowserHistory(parameters[i][0]);
+            output.push_back("null");
+        } else if (operations[i] == "visit") {
+            browser->visit(parameters[i][0]);
+            output.push_back("null");
+        } else if (operations[i] == "back") {
+            string result = browser->back(stoi(parameters[i][0]));
+            output.push_back(result);
+        } else if (operations[i] == "forward") {
+            string result = browser->forward(stoi(parameters[i][0]));
+            output.push_back(result);
+        }
+    }
+
+    // Output the result
+    cout << "Output: [";
+    for (const string& val : output) {
+        cout << "\"" << val << "\", ";
+    }
+    cout << "]" << endl;
 
     return 0;
 }
